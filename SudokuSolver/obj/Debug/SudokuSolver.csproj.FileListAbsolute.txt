@@ -1,0 +1,9 @@
+C:\Users\steve-pc\Documents\Visual Studio 2013\Projects\practice\SudokuSolver\SudokuSolver\bin\Debug\SudokuSolver.exe.config
+C:\Users\steve-pc\Documents\Visual Studio 2013\Projects\practice\SudokuSolver\SudokuSolver\obj\Debug\SudokuSolver.csprojResolveAssemblyReference.cache
+C:\Users\steve-pc\Documents\Visual Studio 2013\Projects\practice\SudokuSolver\SudokuSolver\obj\Debug\SudokuSolver.Form1.resources
+C:\Users\steve-pc\Documents\Visual Studio 2013\Projects\practice\SudokuSolver\SudokuSolver\obj\Debug\SudokuSolver.Properties.Resources.resources
+C:\Users\steve-pc\Documents\Visual Studio 2013\Projects\practice\SudokuSolver\SudokuSolver\obj\Debug\SudokuSolver.csproj.GenerateResource.Cache
+C:\Users\steve-pc\Documents\Visual Studio 2013\Projects\practice\SudokuSolver\SudokuSolver\bin\Debug\SudokuSolver.exe
+C:\Users\steve-pc\Documents\Visual Studio 2013\Projects\practice\SudokuSolver\SudokuSolver\bin\Debug\SudokuSolver.pdb
+C:\Users\steve-pc\Documents\Visual Studio 2013\Projects\practice\SudokuSolver\SudokuSolver\obj\Debug\SudokuSolver.exe
+C:\Users\steve-pc\Documents\Visual Studio 2013\Projects\practice\SudokuSolver\SudokuSolver\obj\Debug\SudokuSolver.pdb
