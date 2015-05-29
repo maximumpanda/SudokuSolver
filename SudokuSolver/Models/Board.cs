@@ -14,18 +14,21 @@ namespace SudokuSolver.Models
 {
     class Board
     {
-        List<Number> Numbers = new List<Number>();
+        readonly List<Number> _numbers = new List<Number>();
+        private const int QuadrantDimensions = 3;
+        private const int QuadrantCount = 9;
 
         public Board()
         {
-            GenerateEmptyBoard(9);
+            this.GenerateEmptyBoard(9);
             
-            ChangeValueAtLocation(new Number(1,1,9));
+            this.ReplaceNumber(new Number(1,1,9));
+            this.GetQuadrantByNumber(new Number(9, 9, 9));
         }
 
         public Number GetNumberByLocation(int x, int y)
         {
-            Number tempNumber = (from r in Numbers
+            Number tempNumber = (from r in _numbers
                                  where r.X == x && r.Y == y
                                  select r).First();
             return tempNumber;
@@ -33,7 +36,7 @@ namespace SudokuSolver.Models
 
         public List<Number> GetNumbersByXCoordinate(int x)
         {
-            List<Number> tempNumbers = (from r in this.Numbers
+            List<Number> tempNumbers = (from r in this._numbers
                                        where r.X == x
                                        select r).ToList();
             return tempNumbers;
@@ -41,7 +44,7 @@ namespace SudokuSolver.Models
 
         public List<Number> GetNumbersByYCoordinate(int y)
         {
-            List<Number> tempNumbers = (from r in this.Numbers
+            List<Number> tempNumbers = (from r in this._numbers
                                         where r.Y == y
                                         select r).ToList();
             return tempNumbers;
@@ -49,15 +52,15 @@ namespace SudokuSolver.Models
 
         public List<Number> GetNumbersByQuadrant(int x, int y)
         {
-            List<Number> TempNumbers = new List<Number>();
-            for (int xAxis = x; xAxis >= 3; xAxis++)
+            List<Number> tempNumbers = new List<Number>();
+            for (int xAxis = x; xAxis >= QuadrantDimensions; xAxis++)
             {
-                for (int yAxis = y; yAxis >= 3; yAxis++)
+                for (int yAxis = y; yAxis >= QuadrantDimensions; yAxis++)
                 {
-                    TempNumbers.Add(GetNumberByLocation(xAxis, yAxis));
+                    tempNumbers.Add(GetNumberByLocation(xAxis, yAxis));
                 }
             }
-            return TempNumbers;
+            return tempNumbers;
         }
 
         public bool IsValidValuePlacement(Number potentialNumber)
@@ -66,9 +69,9 @@ namespace SudokuSolver.Models
             else return true;
         }
 
-        public void ChangeValueAtLocation(Number newValue)
+        public void ReplaceNumber(Number newValue)
         {
-            foreach (Number r in this.Numbers)
+            foreach (Number r in this._numbers)
             {
                 if (r.X == newValue.X && r.Y == newValue.Y)
                 {
@@ -83,27 +86,50 @@ namespace SudokuSolver.Models
             {
                 for (var y = 1; y <= dimension; y++)
                 {
-                    this.Numbers.Add(new Number(x, y));
+                    this._numbers.Add(new Number(x, y));
                 }
             }
+        }
+        
+        public List<Number> GetQuadrantByNumber(Number sourceNumber)
+        {
+            var quadrant = new List<Number>();
+            int location = (sourceNumber.X*10) + sourceNumber.Y;
+            for (var xAxis = 0; xAxis < QuadrantCount; xAxis++)
+            {
+                for (var yAxis = 0; yAxis < QuadrantDimensions; yAxis++)
+                {
+                    bool numberLocationFound = false;                   
+                    for (var stepX = 1; stepX <= QuadrantDimensions; stepX++)
+                    {
+                        for (var stepY = 1; stepY <= QuadrantDimensions; stepY++)
+                        {
+                            int currentLocation = (((xAxis*QuadrantDimensions) + stepX)*10) + ((yAxis*QuadrantDimensions) + stepY);
+                            quadrant.Add(this.GetNumberByLocation((xAxis*QuadrantDimensions) + stepX, (yAxis*QuadrantDimensions) + stepY));
+                            if(currentLocation == location) numberLocationFound = true;
+                        }   
+                    }
+                    if (!numberLocationFound) quadrant.Clear();
+                    else return quadrant;
+                }
+            }
+            return quadrant;
         }
 
         private bool CompareNumberValues(Number potenialNumber)
         {
-            List<Number> xValues = (from r in this.Numbers
+            List<Number> xValues = (from r in this._numbers
                 where r.X == potenialNumber.X && r.Value == potenialNumber.Value && r.Value != 0
-                                    select r).ToList();
+                select r).ToList();
             if (xValues.Count != 0) return false;
 
-            List<Number> yValues = (from r in this.Numbers
-                                    where r.Y == potenialNumber.Y && r.Value == potenialNumber.Value && r.Value != 0
-                                    select r).ToList();
+            List<Number> yValues = (from r in this._numbers
+                where r.Y == potenialNumber.Y && r.Value == potenialNumber.Value && r.Value != 0
+                select r).ToList();
             if (yValues.Count != 0) return false;
 
             return true;
         }
-        
 
-        
     }
 }
